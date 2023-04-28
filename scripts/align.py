@@ -87,11 +87,11 @@ def text_processing(utt_txt):
 
 
 def get_partitions(
-    t: int = 100000,
-    max_len_s: float = 1280.0,
-    fs: int = 16000,
-    samples_to_frames_ratio=512,
-    overlap: int = 0,
+        t: int = 100000,
+        max_len_s: float = 1280.0,
+        fs: int = 16000,
+        samples_to_frames_ratio=512,
+        overlap: int = 0,
 ):
     """Obtain partitions
 
@@ -211,15 +211,15 @@ def find_files(wavdir, txtdir):
 
 
 def align(
-    wavdir: Path,
-    txtdir: Path,
-    output: Path,
-    asr_train_config: Union[Path, str],
-    asr_model_file: Union[Path, str] = None,
-    longest_audio_segments: float = 320,
-    partitions_overlap_frames: int = 30,
-    log_level: Union[int, str] = "INFO",
-    **kwargs,
+        wavdir: Path,
+        txtdir: Path,
+        output: Path,
+        asr_train_config: Union[Path, str],
+        asr_model_file: Union[Path, str] = None,
+        longest_audio_segments: float = 320,
+        partitions_overlap_frames: int = 30,
+        log_level: Union[int, str] = "INFO",
+        **kwargs,
 ):
     """Provide the scripting interface to score text to audio.
 
@@ -288,7 +288,7 @@ def align(
     logging.info(
         f"Partitioning over {longest_audio_segments}s."
         f" Overlap time: "
-        f"{samples_to_frames_ratio/fs*(2*partitions_overlap_frames)}s"
+        f"{samples_to_frames_ratio / fs * (2 * partitions_overlap_frames)}s"
         f" (overlap={partitions_overlap_frames})"
     )
 
@@ -364,7 +364,7 @@ def align(
             lpz = torch.cat(lpzs).numpy()
             lpz = np.delete(lpz, partitions["delete_overlap_list"], axis=0)
             if lpz.shape[0] != expected_lpz_length and lpz.shape[0] != (
-                expected_lpz_length + 1
+                    expected_lpz_length + 1
             ):
                 # The one-off error fix is a little bit dirty,
                 # but it helps to deal with different frontend configurations
@@ -431,14 +431,14 @@ def get_parser():
         default=None,
         choices=["char", "bpe", None],
         help="The token type for ASR model. "
-        "If not given, refers from the training args",
+             "If not given, refers from the training args",
     )
     group.add_argument(
         "--bpemodel",
         type=str_or_none,
         default=None,
         help="The model path of sentencepiece. "
-        "If not given, refers from the training args",
+             "If not given, refers from the training args",
     )
 
     group = parser.add_argument_group("CTC segmentation related")
@@ -447,16 +447,16 @@ def get_parser():
         type=int,
         default=16000,
         help="Sampling Frequency."
-        " The sampling frequency (in Hz) is needed to correctly determine the"
-        " starting and ending time of aligned segments.",
+             " The sampling frequency (in Hz) is needed to correctly determine the"
+             " starting and ending time of aligned segments.",
     )
     group.add_argument(
         "--gratis_blank",
         type=str2bool,
         default=True,
         help="Set the transition cost of the blank token to zero. Audio sections"
-        " labeled with blank tokens can then be skipped without penalty. Useful"
-        " if there are unrelated audio segments between utterances.",
+             " labeled with blank tokens can then be skipped without penalty. Useful"
+             " if there are unrelated audio segments between utterances.",
     )
 
     group.add_argument(
@@ -464,8 +464,8 @@ def get_parser():
         type=int,
         default=320,
         help="Inference on very long audio files requires much memory."
-        " To avoid out-of-memory errors, long audio files can be partitioned."
-        " Set this value to the maximum unpartitioned audio length.",
+             " To avoid out-of-memory errors, long audio files can be partitioned."
+             " Set this value to the maximum unpartitioned audio length.",
     )
 
     group = parser.add_argument_group("The model configuration related")

@@ -3,6 +3,7 @@ word/*
 sub/*
 videoid/*
 video/*
+.idea/
 README.pdf
 __pycache__/
 *.ipynb
